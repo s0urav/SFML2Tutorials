@@ -2,6 +2,7 @@
 # Build
 
 ```bash
+mkdir out
 export SFML_DIR=path/to/SFML/SFML
 make
 ```
@@ -13,5 +14,8 @@ libraries of SFML, like so:
 
 ```bash
 export LD_LIBRARY_PATH=${SFML_DIR}/lib:$LD_LIBRARY_PATH
-out/t1.out
 ```
+
+Then, `cd out/`.
+
+Then, run any example: `./t1.out`, or `./t2.out`, etc.

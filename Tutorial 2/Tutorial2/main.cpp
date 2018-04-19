@@ -5,56 +5,87 @@
 #include <ctime>
 #include <stdlib.h>
 
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 600
+constexpr unsigned int WINDOW_WIDTH {600}, WINDOW_HEIGHT {600};
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "My first SFML game", sf::Style::Default);
+    sf::RenderWindow window(
+        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
+        "My first SFML game", sf::Style::Default);
+
     sf::Vector2u size(400, 400);
+
     window.setSize(size);
+
     window.setTitle("New title");
+
     window.setPosition(sf::Vector2i(100, 100));
+
     sf::Texture pTexture;
+
     sf::Sprite pSprite;
-    if(!pTexture.loadFromFile("tank.png", sf::IntRect(30, 0, 30, 30)))
+
+    constexpr unsigned int sprite_width {60}, sprite_height{60};
+
+    if(!pTexture.loadFromFile("tank.png", sf::IntRect(0, 0, sprite_width, sprite_height)))
     {
-        std::cout << "Could not load image" << std::endl;
+        std::cerr << "Could not load image" << std::endl;
     }
-    pSprite.setRotation(90);
+
     pSprite.setTexture(pTexture);
+
+    pSprite.setOrigin(sprite_width/2, sprite_height/2);
+
     pSprite.setPosition(50, 140);
+
+
     srand(time(NULL));
-    int delay = 30;
+
+    constexpr int delay = 3000;
     int counter = 0;
-    float angle = 0.0f;
+    int angle {0}; 
+
     while(window.isOpen())
     {
         sf::Event event;
+
         while(window.pollEvent(event))
         {
-            if(event.type == sf::Event::Closed)
-                window.close();
-            if(event.type == sf::Event::KeyPressed)
+            switch (event.type)
             {
+            case(sf::Event::Closed):
+                window.close();
+                break;
+
+            case(sf::Event::KeyPressed):
+
                 if(event.key.code == sf::Keyboard::Q)
+                {
                     window.close();
+                }
+                break;
             }
         }
+
         if(++counter >= delay)
         {
-            int randX = rand() % (WINDOW_WIDTH - 40);
-            int randY = rand() % (WINDOW_HEIGHT - 40);
+            const int randX = rand() % (WINDOW_WIDTH - 40);
+            const int randY = rand() % (WINDOW_HEIGHT - 40);
+
             pSprite.setPosition(randX, randY);
+
             counter = 0;
-            angle += 90;
-            if(angle == 360)
-                angle = 0;
+
+            angle += 60;
+            angle %= 360;
+
             pSprite.setRotation(angle);
         }
+
         window.clear();
         window.draw(pSprite);
         window.display();
     }
+
     return 0;
 }
