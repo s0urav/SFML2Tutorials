@@ -9,7 +9,7 @@ LIBRARIES=-lsfml-system -lsfml-window -lsfml-graphics
 IMAGE_tank=Tutorial\ 2/build-untitled1-Desktop_Qt_5_7_0_GCC_64bit-Debug/tank.png
 IMAGE_SpriteSheet=Tutorial\ 3/build-Tutorial3-Desktop_Qt_5_7_0_GCC_64bit-Debug/SpriteSheet.png
 
-all: out/t1.out t2 t3
+all: out/t1.out t2 t3 t4
 
 out/t1.out: Tutorial\ 1/Tutorial1/main.cpp
 	g++ -std=c++17 -o out/t1.out "Tutorial 1/Tutorial1/main.cpp" \
@@ -37,4 +37,12 @@ out/t3.out: Tutorial\ 3/Tutorial3/main.cpp
 
 out/SpriteSheet.png: $(IMAGE_SpriteSheet)
 	cp $(IMAGE_SpriteSheet) out/
+
+# For running "Tutorial 4", out/t4.out and out/SpriteSheet.png are needed.
+t4: out/t4.out out/SpriteSheet.png
+
+out/t4.out: Tutorial\ 4/Shapes/main.cpp
+	g++ -std=c++17 -o out/t4.out "Tutorial 4/Shapes/main.cpp" \
+	-I$(INCLUDE_PATH) \
+	-L$(LIBRARY_PATH) $(LIBRARIES)
 
